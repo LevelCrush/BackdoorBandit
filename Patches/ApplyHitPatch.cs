@@ -30,7 +30,7 @@ namespace BackdoorBandit
 
 
         [PatchPostfix]
-        public static void PatchPostFix(DamageInfo damageInfo, GStruct390 shotID)
+        public static void PatchPostFix(DamageInfo damageInfo, ShotId shotID)
         {
             //try catch for random things applying damage that we don't want
             try

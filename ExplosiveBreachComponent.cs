@@ -10,6 +10,10 @@ using EFT.InventoryLogic;
 using Systems.Effects;
 using UnityEngine;
 
+
+using CameraClass = FPSCamera;
+using InteractionsHandlerClass = ItemMovementHandler;
+
 namespace BackdoorBandit
 {
     internal class ExplosiveBreachComponent : MonoBehaviour

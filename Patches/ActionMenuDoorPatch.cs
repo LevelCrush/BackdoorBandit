@@ -3,6 +3,8 @@ using System.Reflection;
 using Aki.Reflection.Patching;
 using EFT;
 using EFT.Interactive;
+using ActionsReturnClass = InteractionStates;
+using ActionsTypesClass = Action1;
 
 namespace BackdoorBandit.Patches
 {

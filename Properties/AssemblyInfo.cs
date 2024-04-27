@@ -7,7 +7,7 @@ using VersionChecker;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("dvize.BackdoorBandit")]
-[assembly: AssemblyCopyright("Copyright ©  2023")]
+[assembly: AssemblyCopyright("Copyright ï¿½  2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,4 +20,4 @@ using VersionChecker;
 
 [assembly: AssemblyVersion("1.8.2.0")]
 [assembly: AssemblyFileVersion("1.8.2.0")]
-[assembly: TarkovVersion(29197)]
+[assembly: TarkovVersion(29351)]
