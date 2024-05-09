@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Reflection;
 using Aki.Reflection.Patching;
+using Comfort.Common;
 using DoorBreach;
 using EFT;
 using EFT.Ballistics;
 using EFT.Interactive;
+using StayInTarkov.Coop.Components.CoopGameComponents;
+using StayInTarkov.Coop.NetworkPacket.Player;
+using StayInTarkov.Coop.SITGameModes;
+using StayInTarkov.Networking;
 using UnityEngine;
 
 #pragma warning disable IDE0044 // Add readonly modifier
@@ -98,6 +103,10 @@ namespace BackdoorBandit
                 {
                     var carTrunk = entity.GetComponentInParent<Trunk>();
                     OpenDoorIfNotAlreadyOpen(carTrunk, damageInfo.Player.AIData.Player, EInteractionType.Open);
+
+
+                    SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
+                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_0(carTrunk,new InteractionResult(EInteractionType.Open), null);
                 }
             });
         }
@@ -115,6 +124,9 @@ namespace BackdoorBandit
                 {
                     var lootContainer = entity.GetComponentInParent<LootableContainer>();
                     OpenDoorIfNotAlreadyOpen(lootContainer, damageInfo.Player.AIData.Player, EInteractionType.Open);
+                    SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
+                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_0(lootContainer,new InteractionResult(EInteractionType.Open), null);
+
                 }
             });
         }
@@ -132,6 +144,12 @@ namespace BackdoorBandit
                 {
                     var door = entity.GetComponentInParent<Door>();
                     OpenDoorIfNotAlreadyOpen(door, damageInfo.Player.AIData.Player, EInteractionType.Breach);
+                    
+                    // SIT specific
+                    Logger.LogInfo("Sending network packet to open door");
+                    SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
+                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_1(door,new InteractionResult(EInteractionType.Breach));
+               
                 }
             });
         }
