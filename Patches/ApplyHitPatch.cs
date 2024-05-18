@@ -105,7 +105,7 @@ namespace BackdoorBandit
                     OpenDoorIfNotAlreadyOpen(carTrunk, damageInfo.Player.AIData.Player, EInteractionType.Open);
                     Logger.LogInfo("Sending network packet to open car trunk");
                     SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
-                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_0(carTrunk,new InteractionResult(EInteractionType.Open), null);
+                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_1(carTrunk,new InteractionResult(EInteractionType.Open));
                 }
             });
         }
@@ -125,7 +125,7 @@ namespace BackdoorBandit
                     OpenDoorIfNotAlreadyOpen(lootContainer, damageInfo.Player.AIData.Player, EInteractionType.Open);
                     Logger.LogInfo("Sending network packet to open lootable container");
                     SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
-                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_0(lootContainer,new InteractionResult(EInteractionType.Open), null);
+                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_1(lootContainer,new InteractionResult(EInteractionType.Open));
                 }
             });
         }

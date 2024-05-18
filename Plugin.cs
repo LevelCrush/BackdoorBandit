@@ -127,6 +127,7 @@ namespace DoorBreach
             new ActionMenuDoorPatch().Enable();
             new ActionMenuKeyCardPatch().Enable();
             new PerfectCullingNullRefPatch().Enable();
+            new BackdoorBanditNetworkPacketPatch().Enable();
         }
 
         private void CheckEftVersion()
