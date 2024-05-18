@@ -6,6 +6,7 @@ using BackdoorBandit.Patches;
 using BepInEx;
 using BepInEx.Configuration;
 using EFT;
+using StayInTarkov.Coop.SITGameModes;
 using UnityEngine;
 using VersionChecker;
 
@@ -145,7 +146,8 @@ namespace DoorBreach
     //re-initializes each new game
     internal class NewGamePatch : ModulePatch
     {
-        protected override MethodBase GetTargetMethod() => typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
+        protected override MethodBase GetTargetMethod() =>  typeof(CoopSITGame).GetMethod("CreateExfiltrationPointAndInitDeathHandler",
+            BindingFlags.Public | BindingFlags.Instance);
 
         [PatchPrefix]
         public static void PatchPrefix()
