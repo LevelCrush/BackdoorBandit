@@ -68,7 +68,7 @@ namespace BackdoorBandit.SIT
 
         protected override async void Process(CoopPlayerClient client)
         {
-            StayInTarkovHelperConstants.Logger.LogInfo($"{nameof(BackdoorBanditPacket)}: Processing Fire Support Packet");
+            StayInTarkovHelperConstants.Logger.LogInfo($"{nameof(BackdoorBanditPacket)}: Processing Backdoor Bandit Packet");
 
             if (client.GetPlayer.IsYourPlayer)
             {
