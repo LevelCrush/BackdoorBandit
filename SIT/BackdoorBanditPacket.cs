@@ -79,8 +79,8 @@ namespace BackdoorBandit.SIT
             {
                 case "C4":
                     StayInTarkovHelperConstants.Logger.LogInfo($"{nameof(BackdoorBanditPacket)}: Finding door {DoorID}");
-                    var door = SITGameComponent.GetCoopGameComponent().ListOfInteractiveObjects
-                        .FirstOrDefault(x => x.Id == DoorID) as Door;
+                    var door = SITGameComponent.GetCoopGameComponent().WorldnteractiveObjects
+                        .First(x => x.Value.Id == DoorID).Value as Door;
                     
                     var player = SITGameComponent.GetCoopGameComponent().Players[ProfileId];
                     
