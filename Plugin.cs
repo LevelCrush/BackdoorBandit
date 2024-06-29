@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
-using Aki.Reflection.Patching;
 using BackdoorBandit.Patches;
+using BackdoorBandit.SIT;
 using BepInEx;
 using BepInEx.Configuration;
 using EFT;
+using StayInTarkov;
 using StayInTarkov.Coop.SITGameModes;
 using UnityEngine;
 using VersionChecker;
+using ModulePatch = Aki.Reflection.Patching.ModulePatch;
 
 namespace DoorBreach
 {
@@ -127,7 +131,19 @@ namespace DoorBreach
             new ActionMenuDoorPatch().Enable();
             new ActionMenuKeyCardPatch().Enable();
             new PerfectCullingNullRefPatch().Enable();
-            new BackdoorBanditNetworkPacketPatch().Enable();
+          //  new BackdoorBanditNetworkPacketPatch().Enable();
+            
+          // Patch network packets in
+            StayInTarkovHelperConstants.Logger.LogInfo("Trying to patch in BackdoorBanditPacket");
+            var sit_types =
+                typeof(StayInTarkovHelperConstants).GetField("_sitTypes", BindingFlags.Static | BindingFlags.NonPublic);
+           
+            StayInTarkovHelperConstants.Logger.LogInfo($"Backdoor bandit is patching in BackdoorBanditPacket");
+            var new_types = new List<Type>();
+            new_types.Add(typeof(BackdoorBanditPacket));
+            var merged = StayInTarkovHelperConstants.SITTypes.Union(new_types).ToArray();
+            sit_types.SetValue(null, merged);
+            StayInTarkovHelperConstants.Logger.LogInfo("Backdoor bandit is finished patching BackdoorBanditPacket");
         }
 
         private void CheckEftVersion()
@@ -150,7 +166,7 @@ namespace DoorBreach
         protected override MethodBase GetTargetMethod() =>  typeof(CoopSITGame).GetMethod("CreateExfiltrationPointAndInitDeathHandler",
             BindingFlags.Public | BindingFlags.Instance);
 
-        [PatchPrefix]
+        [Aki.Reflection.Patching.PatchPrefix]
         public static void PatchPrefix()
         {
             //stolen from drakiaxyz - thanks
