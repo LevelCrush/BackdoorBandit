@@ -131,19 +131,10 @@ namespace DoorBreach
             new ActionMenuDoorPatch().Enable();
             new ActionMenuKeyCardPatch().Enable();
             new PerfectCullingNullRefPatch().Enable();
-          //  new BackdoorBanditNetworkPacketPatch().Enable();
+            //  new BackdoorBanditNetworkPacketPatch().Enable();
             
-          // Patch network packets in
-            StayInTarkovHelperConstants.Logger.LogInfo("Trying to patch in BackdoorBanditPacket");
-            var sit_types =
-                typeof(StayInTarkovHelperConstants).GetField("_sitTypes", BindingFlags.Static | BindingFlags.NonPublic);
-           
-            StayInTarkovHelperConstants.Logger.LogInfo($"Backdoor bandit is patching in BackdoorBanditPacket");
-            var new_types = new List<Type>();
-            new_types.Add(typeof(BackdoorBanditPacket));
-            var merged = StayInTarkovHelperConstants.SITTypes.Union(new_types).ToArray();
-            sit_types.SetValue(null, merged);
-            StayInTarkovHelperConstants.Logger.LogInfo("Backdoor bandit is finished patching BackdoorBanditPacket");
+            // Patch network packets in
+            NetworkPacketAPI.PacketInjector.Inject<BackdoorBanditPacket>();
         }
 
         private void CheckEftVersion()
