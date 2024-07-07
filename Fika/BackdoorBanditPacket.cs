@@ -7,6 +7,7 @@ using EFT.Interactive;
 using Fika.Core.Coop.Components;
 using Fika.Core.Coop.Matchmaker;
 using Fika.Core.Networking;
+using LiteNetLib;
 using LiteNetLib.Utils;
 using NetworkAPI;
 using UnityEngine;
@@ -58,6 +59,18 @@ namespace BackdoorBandit.Fika
                 Singleton<FikaClient>.Instance.SendData(netwriter, ref packet, LiteNetLib.DeliveryMethod.ReliableUnordered);
             }
         }
+        
+        public static void Send( BackdoorBanditPacket packet, NetPeer peer)
+        {
+            if (netwriter == null)
+            {
+                netwriter = new NetDataWriter();
+            }
+            
+            netwriter.Reset();
+            Singleton<FikaServer>.Instance.SendDataToAll(netwriter, ref packet, LiteNetLib.DeliveryMethod.ReliableUnordered, peer);
+
+        }
 
         public static  void Process(INetworkPacket data)
         {
@@ -78,6 +91,12 @@ namespace BackdoorBandit.Fika
                     break;
             }
             
+        }
+
+        public static void ProcessServer(INetworkPacket data, NetPeer peer)
+        {
+            BackdoorBanditPacket.Process(data);
+            BackdoorBanditPacket.Send(data as BackdoorBanditPacket, peer);
         }
     }
 }

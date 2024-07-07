@@ -157,7 +157,6 @@ namespace DoorBreach
             
             // Setup listeners on both client and the server
             NetworkAPI.Util.PacketInjector.Listen<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
-
         }
 
         private void CheckEftVersion()
