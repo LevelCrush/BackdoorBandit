@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using Aki.Reflection.Patching;
 using DoorBreach;
@@ -6,11 +7,11 @@ using EFT;
 using EFT.Ballistics;
 using EFT.Interactive;
 using UnityEngine;
-using StayInTarkov.Coop.Components.CoopGameComponents;
-using StayInTarkov.Coop.NetworkPacket.Player;
-using StayInTarkov.Coop.SITGameModes;
-using StayInTarkov.Networking;
 using Comfort.Common;
+using Fika.Core;
+using Fika.Core.Coop.Components;
+using Fika.Core.Coop.Matchmaker;
+using Fika.Core.Networking;
 
 #pragma warning disable IDE0044 // Add readonly modifier
 #pragma warning disable IDE0007 // Use implicit type
@@ -104,8 +105,7 @@ namespace BackdoorBandit
                     var carTrunk = entity.GetComponentInParent<Trunk>();
                     OpenDoorIfNotAlreadyOpen(carTrunk, damageInfo.Player.AIData.Player, EInteractionType.Open);
                     Logger.LogInfo("Sending network packet to open car trunk");
-                    SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
-                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_1(carTrunk,new InteractionResult(EInteractionType.Open));
+                    CoopHandler.GetCoopHandler().Players[damageInfo.Player.iPlayer.Id].vmethod_1(carTrunk,new InteractionResult(EInteractionType.Open));
                 }
             });
         }
@@ -124,8 +124,7 @@ namespace BackdoorBandit
                     var lootContainer = entity.GetComponentInParent<LootableContainer>();
                     OpenDoorIfNotAlreadyOpen(lootContainer, damageInfo.Player.AIData.Player, EInteractionType.Open);
                     Logger.LogInfo("Sending network packet to open lootable container");
-                    SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
-                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_1(lootContainer,new InteractionResult(EInteractionType.Open));
+                    CoopHandler.GetCoopHandler().Players[damageInfo.Player.iPlayer.Id].vmethod_1(carTrunk,new InteractionResult(EInteractionType.Open));
                 }
             });
         }
@@ -144,8 +143,7 @@ namespace BackdoorBandit
                     var door = entity.GetComponentInParent<Door>();
                     OpenDoorIfNotAlreadyOpen(door, damageInfo.Player.AIData.Player, EInteractionType.Breach);
                     Logger.LogInfo("Sending network packet to open door");
-                    SITGameComponent.TryGetCoopGameComponent(out SITGameComponent coopGameComponent);
-                    coopGameComponent.Players[damageInfo.Player.iPlayer.ProfileId].vmethod_1(door,new InteractionResult(EInteractionType.Breach));
+                    CoopHandler.GetCoopHandler().Players[damageInfo.Player.iPlayer.Id].vmethod_1(carTrunk,new InteractionResult(EInteractionType.Breach));
                 }
             });
         }

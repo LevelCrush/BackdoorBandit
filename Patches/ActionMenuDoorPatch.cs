@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Reflection;
 using Aki.Reflection.Patching;
-using BackdoorBandit.SIT;
+using BackdoorBandit.Fika;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
-using StayInTarkov.Networking;
 
 namespace BackdoorBandit.Patches
 {
@@ -27,10 +26,11 @@ namespace BackdoorBandit.Patches
                     Action = new Action(() =>
                     {
                         BackdoorBandit.ExplosiveBreachComponent.StartExplosiveBreach(door, owner.Player);
-                        BackdoorBanditPacket packet = new BackdoorBanditPacket(owner.Player.ProfileId);
+                        BackdoorBanditPacket packet = new BackdoorBanditPacket();
+                        packet.PlayerID = owner.Player.Id;
                         packet.Mode = "C4";
                         packet.DoorID = door.Id;
-                        GameClient.SendData(packet.Serialize());
+                        BackdoorBanditPacket.Send(packet);
                     }),
                     Disabled = (!door.IsBreachAngle(owner.Player.Position) || !BackdoorBandit.ExplosiveBreachComponent.IsValidDoorState(door) ||
                         !BackdoorBandit.ExplosiveBreachComponent.hasC4Explosives(owner.Player))

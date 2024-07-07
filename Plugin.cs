@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using BackdoorBandit.Fika;
 using BackdoorBandit.Patches;
-using BackdoorBandit.SIT;
 using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Logging;
 using EFT;
-using StayInTarkov;
-using StayInTarkov.Coop.SITGameModes;
+using Fika.Core;
+using Fika.Core.Modding;
+using Fika.Core.Modding.Events;
 using UnityEngine;
 using VersionChecker;
 using ModulePatch = Aki.Reflection.Patching.ModulePatch;
@@ -33,6 +35,7 @@ namespace DoorBreach
         public static ConfigEntry<int> explosionDamage;
 
         public static int interactiveLayer;
+
 
         private void Awake()
         {
@@ -134,7 +137,20 @@ namespace DoorBreach
             //  new BackdoorBanditNetworkPacketPatch().Enable();
             
             // Patch network packets in
-            NetworkPacketAPI.PacketInjector.Inject<BackdoorBanditPacket>();
+            FikaLogger.Logger = this.Logger;
+            FikaLogger.Write($"{nameof(DoorBreachPlugin)} is setting up Finka hooks");
+            
+            
+            FikaEventDispatcher.SubscribeEvent<FikaClientCreatedEvent>((ev) =>
+            {
+                ev.Client.packetProcessor.SubscribeNetSerializable<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
+            });
+
+            FikaEventDispatcher.SubscribeEvent<FikaServerCreatedEvent>((ev) =>
+            {
+                ev.Server.packetProcessor.SubscribeNetSerializable<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
+            });
+
         }
 
         private void CheckEftVersion()
@@ -154,8 +170,7 @@ namespace DoorBreach
     //re-initializes each new game
     internal class NewGamePatch : ModulePatch
     {
-        protected override MethodBase GetTargetMethod() =>  typeof(CoopSITGame).GetMethod("CreateExfiltrationPointAndInitDeathHandler",
-            BindingFlags.Public | BindingFlags.Instance);
+        protected override MethodBase GetTargetMethod() => typeof(EFT.GameWorld).GetMethod("OnGameStarted", BindingFlags.Public | BindingFlags.Instance);
 
         [Aki.Reflection.Patching.PatchPrefix]
         public static void PatchPrefix()
