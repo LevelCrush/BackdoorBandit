@@ -5,6 +5,7 @@ using BackdoorBandit.Fika;
 using Comfort.Common;
 using EFT;
 using EFT.Interactive;
+using Fika.Core.Coop.Components;
 
 namespace BackdoorBandit.Patches
 {
@@ -25,9 +26,10 @@ namespace BackdoorBandit.Patches
                     Name = "Plant Explosive",
                     Action = new Action(() =>
                     {
+                        var coopHandler = CoopHandler.GetCoopHandler();
                         BackdoorBandit.ExplosiveBreachComponent.StartExplosiveBreach(door, owner.Player);
                         BackdoorBanditPacket packet = new BackdoorBanditPacket();
-                        packet.PlayerID = owner.Player.Id;
+                        packet.PlayerID = coopHandler.MyPlayer.NetId;
                         packet.Mode = "C4";
                         packet.DoorID = door.Id;
                         BackdoorBanditPacket.Send(packet);

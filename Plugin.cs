@@ -19,6 +19,7 @@ using ModulePatch = Aki.Reflection.Patching.ModulePatch;
 namespace DoorBreach
 {
     [BepInPlugin("com.dvize.BackdoorBandit", "dvize.BackdoorBandit", "1.8.81")]
+    [BepInDependency("com.levelcrush.npa")]
     //[BepInDependency("com.spt-aki.core", "3.7.6")]
     public class DoorBreachPlugin : BaseUnityPlugin
     {
@@ -138,9 +139,10 @@ namespace DoorBreach
             
             // Patch network packets in
             FikaLogger.Logger = this.Logger;
-            FikaLogger.Write($"{nameof(DoorBreachPlugin)} is setting up Finka hooks");
+            FikaLogger.Write($"{nameof(DoorBreachPlugin)} is setting up Fika hooks");
             
             
+            /*
             FikaEventDispatcher.SubscribeEvent<FikaClientCreatedEvent>((ev) =>
             {
                 ev.Client.packetProcessor.SubscribeNetSerializable<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
@@ -149,7 +151,12 @@ namespace DoorBreach
             FikaEventDispatcher.SubscribeEvent<FikaServerCreatedEvent>((ev) =>
             {
                 ev.Server.packetProcessor.SubscribeNetSerializable<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
-            });
+            }); */
+
+            NetworkAPI.Util.PacketInjector.Inject<BackdoorBanditPacket>();
+            
+            // Setup listeners on both client and the server
+            NetworkAPI.Util.PacketInjector.Listen<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
 
         }
 

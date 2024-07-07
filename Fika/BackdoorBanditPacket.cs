@@ -8,13 +8,16 @@ using Fika.Core.Coop.Components;
 using Fika.Core.Coop.Matchmaker;
 using Fika.Core.Networking;
 using LiteNetLib.Utils;
+using NetworkAPI;
 using UnityEngine;
 
 namespace BackdoorBandit.Fika
 {
-    public class BackdoorBanditPacket: INetSerializable
+    public class BackdoorBanditPacket: INetworkPacket, INetSerializable
     {
         public static NetDataWriter netwriter = null;
+        
+
   
         public string Mode { get; set;  }
         public string DoorID { get; set;  }
@@ -56,8 +59,9 @@ namespace BackdoorBandit.Fika
             }
         }
 
-        public static  void Process(BackdoorBanditPacket packet)
+        public static  void Process(INetworkPacket data)
         {
+            var packet = data as BackdoorBanditPacket;
             
             switch (packet.Mode)
             {
@@ -65,9 +69,9 @@ namespace BackdoorBandit.Fika
                     var coopHandler = CoopHandler.GetCoopHandler();
                     FikaLogger.Write($"{nameof(BackdoorBanditPacket)}: Finding door {packet.DoorID}");
                     var door =   coopHandler.ListOfInteractiveObjects.First(x => x.Value.Id == packet.DoorID).Value as Door;
-                    var player = coopHandler.Players[packet.PlayerID];
+                    var player = coopHandler.Players.First(x => x.Value.NetId == packet.PlayerID).Value;
                     FikaLogger.Write($"{nameof(BackdoorBanditPacket)}: Having Player {player.Profile.Nickname} place C4");
-                    BackdoorBandit.ExplosiveBreachComponent.StartExplosiveBreach(door, player as Player);
+                    BackdoorBandit.ExplosiveBreachComponent.StartExplosiveBreach(door, player);
                     break;
                 default:
                     FikaLogger.Write($"{nameof(BackdoorBanditPacket)}: Unsupported mode \"{packet.Mode}");

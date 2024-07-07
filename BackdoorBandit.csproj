@@ -77,6 +77,9 @@
     <Reference Include="Fika.Core">
       <HintPath>..\Fika-Dependencies\BepInEx\plugins\Fika.Core.dll</HintPath>
     </Reference>
+    <Reference Include="NetworkAPI">
+      <HintPath>..\MPT.NetworkAPI\bin\Fika\NetworkAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Fika-Dependencies\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
