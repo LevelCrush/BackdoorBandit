@@ -13,6 +13,7 @@ using EFT;
 using Fika.Core;
 using Fika.Core.Modding;
 using Fika.Core.Modding.Events;
+using LiteNetLib;
 using UnityEngine;
 using VersionChecker;
 
@@ -38,7 +39,7 @@ namespace DoorBreach
 
         private void Awake()
         {
-            CheckEftVersion();
+            //CheckEftVersion();
 
             PlebMode = Config.Bind(
                 "1. Main Settings",
@@ -140,7 +141,7 @@ namespace DoorBreach
             FikaLogger.Write($"{nameof(DoorBreachPlugin)} is setting up Fika hooks");
             
             
-            /*
+            
             FikaEventDispatcher.SubscribeEvent<FikaClientCreatedEvent>((ev) =>
             {
                 ev.Client.packetProcessor.SubscribeNetSerializable<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
@@ -148,13 +149,13 @@ namespace DoorBreach
 
             FikaEventDispatcher.SubscribeEvent<FikaServerCreatedEvent>((ev) =>
             {
-                ev.Server.packetProcessor.SubscribeNetSerializable<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
-            }); */
+                ev.Server.packetProcessor.SubscribeNetSerializable<BackdoorBanditPacket, NetPeer>(BackdoorBanditPacket.ProcessServer);
+            }); 
 
-            NetworkAPI.Util.PacketInjector.Inject<BackdoorBanditPacket>();
+           // NetworkAPI.Util.PacketInjector.Inject<BackdoorBanditPacket>();
             
             // Setup listeners on both client and the server
-            NetworkAPI.Util.PacketInjector.Listen<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
+           // NetworkAPI.Util.PacketInjector.Listen<BackdoorBanditPacket>(BackdoorBanditPacket.Process);
         }
 
         private void CheckEftVersion()

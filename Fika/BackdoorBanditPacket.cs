@@ -10,12 +10,11 @@ using Fika.Core.Coop.Utils;
 using Fika.Core.Networking;
 using LiteNetLib;
 using LiteNetLib.Utils;
-using NetworkAPI;
 using UnityEngine;
 
 namespace BackdoorBandit.Fika
 {
-    public class BackdoorBanditPacket: INetworkPacket, INetSerializable
+    public class BackdoorBanditPacket: INetSerializable
     {
         public static NetDataWriter netwriter = null;
         
@@ -73,7 +72,7 @@ namespace BackdoorBandit.Fika
 
         }
 
-        public static  void Process(INetworkPacket data)
+        public static  void Process(INetSerializable data)
         {
             var packet = data as BackdoorBanditPacket;
             
@@ -82,7 +81,6 @@ namespace BackdoorBandit.Fika
                 case "C4":
                     var coopHandler = CoopHandler.GetCoopHandler();
                     FikaLogger.Write($"{nameof(BackdoorBanditPacket)}: Finding door {packet.DoorID}");
-
 
                     var door = Singleton<GameWorld>.Instance.World_0.FindDoor(packet.DoorID) as Door;
                  //   var door =   coopHandler.ListOfInteractiveObjects.First(x => x.Value.Id == packet.DoorID).Value as Door;
@@ -97,7 +95,7 @@ namespace BackdoorBandit.Fika
             
         }
 
-        public static void ProcessServer(INetworkPacket data, NetPeer peer)
+        public static void ProcessServer(INetSerializable data, NetPeer peer)
         {
             BackdoorBanditPacket.Process(data);
             BackdoorBanditPacket.Send(data as BackdoorBanditPacket, peer);
