@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BackdoorBandit</RootNamespace>
     <AssemblyName>dvize.BackdoorBandit</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -46,16 +46,6 @@
     <Reference Include="0Harmony">
       <HintPath>..\Fika-Dependencies\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Aki.Common">
-      <HintPath>..\Fika-Dependencies\EscapeFromTarkov_Data\Managed\Aki.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Aki.Reflection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Fika-Dependencies\EscapeFromTarkov_Data\Managed\Aki.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="aki_PrePatch">
-      <HintPath>..\Fika-Dependencies\BepInEx\patchers\aki_PrePatch.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Fika-Dependencies\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -83,6 +73,15 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Fika-Dependencies\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-common">
+      <HintPath>..\Fika-Dependencies\BepInEx\plugins\spt\spt-common.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-prepatch">
+      <HintPath>..\Fika-Dependencies\BepInEx\patchers\spt-prepatch.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-reflection">
+      <HintPath>..\Fika-Dependencies\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
@@ -146,4 +145,5 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+   
 </Project>

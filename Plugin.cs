@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using SPT.Reflection.Patching;
 using BackdoorBandit.Fika;
 using BackdoorBandit.Patches;
 using BepInEx;
@@ -14,13 +15,11 @@ using Fika.Core.Modding;
 using Fika.Core.Modding.Events;
 using UnityEngine;
 using VersionChecker;
-using ModulePatch = Aki.Reflection.Patching.ModulePatch;
 
 namespace DoorBreach
 {
-    [BepInPlugin("com.dvize.BackdoorBandit", "dvize.BackdoorBandit", "1.8.81")]
+    [BepInPlugin("com.dvize.BackdoorBandit", "dvize.BackdoorBandit", "1.9.01")]
     [BepInDependency("com.levelcrush.npa")]
-    //[BepInDependency("com.spt-aki.core", "3.7.6")]
     public class DoorBreachPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> PlebMode;
@@ -36,7 +35,6 @@ namespace DoorBreach
         public static ConfigEntry<int> explosionDamage;
 
         public static int interactiveLayer;
-
 
         private void Awake()
         {
@@ -176,9 +174,9 @@ namespace DoorBreach
     //re-initializes each new game
     internal class NewGamePatch : ModulePatch
     {
-        protected override MethodBase GetTargetMethod() => typeof(EFT.GameWorld).GetMethod("OnGameStarted", BindingFlags.Public | BindingFlags.Instance);
+        protected override MethodBase GetTargetMethod() => typeof(GameWorld).GetMethod(nameof(GameWorld.OnGameStarted));
 
-        [Aki.Reflection.Patching.PatchPrefix]
+        [PatchPrefix]
         public static void PatchPrefix()
         {
             //stolen from drakiaxyz - thanks

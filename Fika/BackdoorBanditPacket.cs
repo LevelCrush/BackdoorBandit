@@ -5,7 +5,8 @@ using Comfort.Common;
 using EFT;
 using EFT.Interactive;
 using Fika.Core.Coop.Components;
-using Fika.Core.Coop.Matchmaker;
+using Fika.Core.Coop.GameMode;
+using Fika.Core.Coop.Utils;
 using Fika.Core.Networking;
 using LiteNetLib;
 using LiteNetLib.Utils;
@@ -48,7 +49,7 @@ namespace BackdoorBandit.Fika
             }
             
             netwriter.Reset();
-            if (MatchmakerAcceptPatches.IsServer)
+            if (FikaBackendUtils.IsServer)
             {
                 FikaLogger.Write($"{nameof(BackdoorBanditPacket)}: sending packet out via server");
                 Singleton<FikaServer>.Instance.SendDataToAll(netwriter, ref packet, LiteNetLib.DeliveryMethod.ReliableUnordered);
@@ -81,7 +82,10 @@ namespace BackdoorBandit.Fika
                 case "C4":
                     var coopHandler = CoopHandler.GetCoopHandler();
                     FikaLogger.Write($"{nameof(BackdoorBanditPacket)}: Finding door {packet.DoorID}");
-                    var door =   coopHandler.ListOfInteractiveObjects.First(x => x.Value.Id == packet.DoorID).Value as Door;
+
+
+                    var door = Singleton<GameWorld>.Instance.World_0.FindDoor(packet.DoorID) as Door;
+                 //   var door =   coopHandler.ListOfInteractiveObjects.First(x => x.Value.Id == packet.DoorID).Value as Door;
                     var player = coopHandler.Players.First(x => x.Value.NetId == packet.PlayerID).Value;
                     FikaLogger.Write($"{nameof(BackdoorBanditPacket)}: Having Player {player.Profile.Nickname} place C4");
                     BackdoorBandit.ExplosiveBreachComponent.StartExplosiveBreach(door, player);

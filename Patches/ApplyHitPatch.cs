@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Aki.Reflection.Patching;
+using SPT.Reflection.Patching;
 using DoorBreach;
 using EFT;
 using EFT.Ballistics;
@@ -10,7 +10,6 @@ using UnityEngine;
 using Comfort.Common;
 using Fika.Core;
 using Fika.Core.Coop.Components;
-using Fika.Core.Coop.Matchmaker;
 using Fika.Core.Networking;
 
 #pragma warning disable IDE0044 // Add readonly modifier
@@ -36,7 +35,7 @@ namespace BackdoorBandit
 
 
         [PatchPostfix]
-        public static void PatchPostFix(DamageInfo damageInfo, GStruct390 shotID)
+        public static void PatchPostFix(DamageInfo damageInfo, GStruct389 shotID)
         {
             //try catch for random things applying damage that we don't want
             try
