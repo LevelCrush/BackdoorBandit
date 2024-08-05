@@ -20,7 +20,6 @@ using VersionChecker;
 namespace DoorBreach
 {
     [BepInPlugin("com.dvize.BackdoorBandit", "dvize.BackdoorBandit", "1.9.01")]
-    [BepInDependency("com.levelcrush.npa")]
     public class DoorBreachPlugin : BaseUnityPlugin
     {
         public static ConfigEntry<bool> PlebMode;
